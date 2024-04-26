@@ -77,14 +77,37 @@
         </xacro:inertial_box>
     </link>
 
+    <!-- IMU Sensor Definations -->
+    <link name="imu_link">
+        <visual>
+            <geometry>
+            <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <geometry>
+            <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.1" x="0.12" y="0.15" z="0.15">
+            <origin xyz="0.0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0.01"/>
+    </joint>
+    <!-- End of IMU Sensor Definations -->
+
     <xacro:wheel name="front_right" x="${base_x/2}" y="${base_y/2}" z="${base_z/3}" wheel_radius="${wheel_radius}" wheel_width="${wheel_width}" velocity="${velocity}" effort="${effort}" mass="${wheel_mass}"/>
     <xacro:wheel name="front_left" x="${base_x/2}" y="-${base_y/2}" z="${base_z/3}" wheel_radius="${wheel_radius}" wheel_width="${wheel_width}" velocity="${velocity}" effort="${effort}" mass="${wheel_mass}"/>
     <xacro:wheel name="rear_right" x="-${base_x/2}" y="${base_y/2}" z="${base_z/3}" wheel_radius="${wheel_radius}" wheel_width="${wheel_width}" velocity="${velocity}" effort="${effort}" mass="${wheel_mass}"/>
     <xacro:wheel name="rear_left" x="-${base_x/2}" y="-${base_y/2}" z="${base_z/3}" wheel_radius="${wheel_radius}" wheel_width="${wheel_width}" velocity="${velocity}" effort="${effort}" mass="${wheel_mass}"/>
 
-
-
-    <!-- camera_joint describes where the camera is relative to the arm -->
+        <!-- - camera_joint describes where the camera is relative to the arm -->
     <!-- - Even though the camera isn't moving relative to the arm, it will probably be helpful to have its own link/frame rather than just adding more visuals to the arm -->
     <!-- - For this example, the camera_link origin will be at the centre of the camera's "sensor" -->
     <joint name="camera_joint" type="fixed">
@@ -93,8 +116,7 @@
         <child link="camera_link"/>        
     </joint>
 
-
-    <!-- camera_link describes the camera at the end of the arm -->
+    <!-- - camera_link describes the camera at the end of the arm -->
     <!-- - It has multiple visual elements, which ultimately get combined together -->
     <!-- - Even if we specify different materials, RViz will just colour them all the same as the first -->
     <!-- - Although we could also specify multiple collision geometries, instead we just use a single box that encompasses the whole camera -->
@@ -125,7 +147,7 @@
     </link>
 
 
-    <xacro:include filename="greenguard_gazebo.xacro" />
 
+    <xacro:include filename="greenguard_gazebo.xacro" />
 
 </robot>
