@@ -6,9 +6,6 @@ greenguard
 
 Diğer branchlarda publish yapılacağı zaman veya branch değiştirilmek istendiğinde.
 ```
-  GET /api/items
-```
-```
 git checkout branch_name - > örn: git checkout yigit
 ```
 ```
