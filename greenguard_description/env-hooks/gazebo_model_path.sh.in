@@ -1,0 +1,2 @@
+# env-hooks/gazebo_model_path.sh.in
+export GAZEBO_MODEL_PATH="@AMENT_CURRENT_PREFIX@/share/@PROJECT_NAME@/models:$GAZEBO_MODEL_PATH"
