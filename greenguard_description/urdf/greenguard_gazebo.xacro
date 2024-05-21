@@ -76,6 +76,42 @@
             and the plugin tag with some extra parameters the plugin needs. -->
     <!-- Note that although visualise is set to true, it won't actually visualise the depth camera in gazebo. To see the preview, 
             try swapping "depth" to "camera"-->
+     <gazebo reference="base_link">
+        <sensor type="ray" name="lidar_sensor">
+            <pose>0 0 0.225 0 0 0</pose> <!-- Lidar sensörünün konumu ve yönelimi -->
+            <always_on>true</always_on>
+            <visualize>true</visualize> <!-- Gazebo'da görselleştirme etkinleştirildi -->
+            <update_rate>20</update_rate> <!-- Güncelleme hızı -->
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples> <!-- Yatay örnek sayısı -->
+                        <resolution>1</resolution> <!-- Yatay açı çözünürlüğü -->
+                        <min_angle>-1.5708</min_angle> <!-- Minimum yatay açı (radyan cinsinden) -->
+                        <max_angle>1.5708</max_angle> <!-- Maksimum yatay açı (radyan cinsinden) -->
+                    </horizontal>
+                    <vertical>
+                        <samples>1</samples> <!-- Dikey örnek sayısı -->
+                        <resolution>1</resolution> <!-- Dikey açı çözünürlüğü -->
+                        <min_angle>0</min_angle> <!-- Minimum dikey açı (radyan cinsinden) -->
+                        <max_angle>0</max_angle> <!-- Maksimum dikey açı (radyan cinsinden) -->
+                    </vertical>
+                </scan>
+                <range>
+                    <min>0.1</min> <!-- Minumum algılama mesafesi -->
+                    <max>30</max> <!-- Maksimum algılama mesafesi -->
+                    <resolution>0.01</resolution> <!-- Mesafe çözünürlüğü -->
+                </range>
+            </ray>
+            <plugin filename="libgazebo_ros_ray_sensor.so" name="scan">
+                <ros>
+                  <remapping>~/out:=scan</remapping>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>lidar_link</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
 
     <gazebo reference="imu_link">
         <sensor name="imu_sensor" type="imu">
@@ -175,7 +211,7 @@
         </sensor>
     </gazebo>
 
-    <gazebo>
+    <gazebo reference="base_link">
         <plugin filename="libgazebo_ros_diff_drive.so" name="skid_steer_drive">
             <ros>
                 <namespace>/greenguard</namespace>
@@ -204,5 +240,4 @@
             <robot_base_frame>base_link</robot_base_frame>
         </plugin>
     </gazebo>
-
 </robot>
